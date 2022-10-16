@@ -65,60 +65,101 @@ export function Main() {
     }
   }, 0);
 
-  return (
-    <div className={styles.main}>
-      <form onSubmit={handleNewTodo}>
-        <input
-          name="task"
-          type="text"
-          placeholder="Adicione uma nova tarefa"
-        />
-        <button type="submit">
-          Criar <img src={plus} />
-        </button>
-      </form>
-      <header className={styles.header}>
-        <div className={styles.createdTasks}>
-          <p>Tarefas criadas</p>
-          <span>{numberOfTasks}</span>
+  if (todoList.length == 0) {
+    return (
+      <div className={styles.main}>
+        <form onSubmit={handleNewTodo}>
+          <input
+            name="task"
+            type="text"
+            placeholder="Adicione uma nova tarefa"
+          />
+          <button type="submit">
+            Criar <img src={plus} />
+          </button>
+        </form>
+        <header className={styles.header}>
+          <div className={styles.createdTasks}>
+            <p>Tarefas criadas</p>
+            <span>{numberOfTasks}</span>
+          </div>
+          <div className={styles.finishedTasks}>
+            <p>Concluídas</p>
+            <span>{`${
+              numberOfCompletedTasks ? numberOfCompletedTasks : 0
+            } de ${numberOfTasks}`}</span>
+          </div>
+        </header>
+        <div className={styles.todoWrapper}>
+          <section>
+            <img
+              src={board}
+              alt=""
+            />
+            <p>
+              <strong>Você ainda não tem tarefas cadastradas</strong>
+            </p>
+            <p>Crie tarefas e organize seus itens a fazer</p>
+          </section>
         </div>
-        <div className={styles.finishedTasks}>
-          <p>Concluídas</p>
-          <span>{`${
-            numberOfCompletedTasks ? numberOfCompletedTasks : 0
-          } de ${numberOfTasks}`}</span>
-        </div>
-      </header>
-      <div className={styles.todoWrapper}>
-        {todoList.map((todo) => {
-          if (!todo.checked) {
-            return (
-              <Todo
-                key={todo.id}
-                id={todo.id}
-                checked={todo.checked}
-                content={todo.content}
-                onToggleCompleteTask={handleChangeCompletedTask}
-                onDeleteTask={handleDeleteTask}
-              />
-            );
-          }
-        })}
-        {todoList.map((todo) => {
-          if (todo.checked) {
-            return (
-              <Todo
-                key={todo.id}
-                id={todo.id}
-                checked={todo.checked}
-                content={todo.content}
-                onToggleCompleteTask={handleChangeCompletedTask}
-                onDeleteTask={handleDeleteTask}
-              />
-            );
-          }
-        })}
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className={styles.main}>
+        <form onSubmit={handleNewTodo}>
+          <input
+            name="task"
+            type="text"
+            placeholder="Adicione uma nova tarefa"
+          />
+          <button type="submit">
+            Criar <img src={plus} />
+          </button>
+        </form>
+        <header className={styles.header}>
+          <div className={styles.createdTasks}>
+            <p>Tarefas criadas</p>
+            <span>{numberOfTasks}</span>
+          </div>
+          <div className={styles.finishedTasks}>
+            <p>Concluídas</p>
+            <span>{`${
+              numberOfCompletedTasks ? numberOfCompletedTasks : 0
+            } de ${numberOfTasks}`}</span>
+          </div>
+        </header>
+        <div className={styles.todoWrapper}>
+          {todoList.map((todo) => {
+            if (!todo.checked) {
+              return (
+                <Todo
+                  key={todo.id}
+                  id={todo.id}
+                  checked={todo.checked}
+                  content={todo.content}
+                  onToggleCompleteTask={handleChangeCompletedTask}
+                  onDeleteTask={handleDeleteTask}
+                />
+              );
+            }
+          })}
+          {todoList.map((todo) => {
+            if (todo.checked) {
+              return (
+                <Todo
+                  key={todo.id}
+                  id={todo.id}
+                  checked={todo.checked}
+                  content={todo.content}
+                  onToggleCompleteTask={handleChangeCompletedTask}
+                  onDeleteTask={handleDeleteTask}
+                />
+              );
+            }
+          })}
+        </div>
+      </div>
+    );
+  }
 }
