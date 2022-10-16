@@ -27,7 +27,7 @@ export function Main() {
   function handleNewTodo(event: FormEvent) {
     event.preventDefault();
     const newTodoText = event.target.task.value;
-    const newTodo: NewTodo = {
+    const newTodo = {
       id: uuidv4(),
       content: newTodoText,
       checked: false,
@@ -36,12 +36,23 @@ export function Main() {
   }
 
   function handleChangeCompletedTask(id: string) {
-    const taskToChange: TodoProps[] = todoList.filter((todo) => {
+    const taskToChange = todoList.map((todo) => {
       if (id === todo.id) {
         todo.checked = !todo.checked;
       }
+      return todo;
     });
+
     setTodoList(taskToChange);
+  }
+
+  function handleDeleteTask(id: string) {
+    const taskToDelete = todoList.filter((todo) => {
+      if (id !== todo.id) {
+        return todo;
+      }
+    });
+    setTodoList(taskToDelete);
   }
 
   const numberOfTasks = todoList.length;
@@ -73,19 +84,39 @@ export function Main() {
         </div>
         <div className={styles.finishedTasks}>
           <p>Concluídas</p>
-          <span>{`${numberOfCompletedTasks} de ${numberOfTasks}`}</span>
+          <span>{`${
+            numberOfCompletedTasks ? numberOfCompletedTasks : 0
+          } de ${numberOfTasks}`}</span>
         </div>
       </header>
       <div className={styles.todoWrapper}>
         {todoList.map((todo) => {
-          return (
-            <Todo
-              key={todo.id}
-              checked={todo.checked}
-              content={todo.content}
-              onToggleCompleteTask={handleChangeCompletedTask}
-            />
-          );
+          if (!todo.checked) {
+            return (
+              <Todo
+                key={todo.id}
+                id={todo.id}
+                checked={todo.checked}
+                content={todo.content}
+                onToggleCompleteTask={handleChangeCompletedTask}
+                onDeleteTask={handleDeleteTask}
+              />
+            );
+          }
+        })}
+        {todoList.map((todo) => {
+          if (todo.checked) {
+            return (
+              <Todo
+                key={todo.id}
+                id={todo.id}
+                checked={todo.checked}
+                content={todo.content}
+                onToggleCompleteTask={handleChangeCompletedTask}
+                onDeleteTask={handleDeleteTask}
+              />
+            );
+          }
         })}
       </div>
     </div>

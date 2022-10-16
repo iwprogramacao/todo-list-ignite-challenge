@@ -9,11 +9,22 @@ interface TodoProps {
   checked?: boolean;
   content: string;
   onToggleCompleteTask: (id: string) => void;
+  onDeleteTask: (id: string) => void;
 }
 
-export function Todo({ id, checked = false, content, onToggleCompleteTask }: TodoProps) {
+export function Todo({
+  id,
+  checked = false,
+  content,
+  onToggleCompleteTask,
+  onDeleteTask,
+}: TodoProps) {
   function handleChangeCompletedTask() {
     onToggleCompleteTask(id);
+  }
+
+  function handleDeleteTask() {
+    onDeleteTask(id);
   }
 
   return (
@@ -22,7 +33,7 @@ export function Todo({ id, checked = false, content, onToggleCompleteTask }: Tod
         <img src={checked ? btnChecked : btnNotChecked} />
       </button>
       <p className={checked ? styles.textChecked : styles.textNotChecked}>{content}</p>
-      <button>
+      <button onClick={handleDeleteTask}>
         <Trash />
       </button>
     </div>
