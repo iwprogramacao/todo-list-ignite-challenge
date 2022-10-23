@@ -16,7 +16,6 @@ interface TodoProps {
 const list: TodoProps[] = [
   { id: uuidv4(), content: "Estudar React", checked: false },
   { id: uuidv4(), content: "Estilizar website", checked: false },
-  { id: uuidv4(), content: "Cobrar as caipinhas da Bruna", checked: false },
   { id: uuidv4(), content: "Criar funcionalidades", checked: true },
   { id: uuidv4(), content: "Tererezin de lei", checked: true },
 ];
@@ -24,7 +23,7 @@ const list: TodoProps[] = [
 export function Main() {
   const [todoList, setTodoList] = useState(list);
 
-  function handleNewTodo(event: FormEvent) {
+  function handleNewTodo(event: FormEvent<HTMLInputElement>) {
     event.preventDefault();
     const newTodoText = event.target.task.value;
     const newTodo = {
